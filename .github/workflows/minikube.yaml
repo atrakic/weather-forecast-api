@@ -1,7 +1,7 @@
 # Demo how to use minikube as CI env with github Actions
 #
 # Usage:
-# git checkout -b minikube
+# git checkout -b minikube-PR-123
 # git push
 
 name: minikube
@@ -9,9 +9,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'minikube'
-    paths-ignore:
-      - '**/README.md'
+      - 'minikube**'
+    paths:
+      - 'src/**'
+      - '!src/docs/**'
 
 env:
   APP: weather-forecast-api
