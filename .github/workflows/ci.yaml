@@ -33,6 +33,7 @@ jobs:
   # Build and test the image locally
   docker-compose-test:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     needs:
       - build
 
