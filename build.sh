@@ -16,11 +16,11 @@ docker build -f ./Dockerfile -t "$img" .
 tag="$(git rev-parse HEAD)" #"$(git describe --tags $(git rev-list --tags --max-count=1))"
 
 if [ -z "$(git status --porcelain)" ]; then 
-  docker tag "$img":latest "$img":"$tag"
-else
   # Only for testing
   docker tag "$img":latest "$img":"v0.0.1"
   docker tag "$img":latest "$img":"v0.0.2"
+else
+  docker tag "$img":latest "$img":"$tag"
 fi
 
 docker image ls --no-trunc "$img"
