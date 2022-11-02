@@ -59,7 +59,7 @@ namespace DemoApi
             app.UseAuthorization();
 
             string ver = Environment.GetEnvironmentVariable("VERSION") ?? "unknown";
-            System.Console.WriteLine("Running: " + ver);
+            if (ver != "unknown") { System.Console.WriteLine("Running: " + ver); }
 
             app.UseEndpoints(endpoints => {
               endpoints.MapGet("/version", async context => { 

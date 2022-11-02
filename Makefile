@@ -1,4 +1,6 @@
-MAKEFLAGS += --silent
+#MAKEFLAGS += --silent
+
+SHELL := /bin/bash
 
 -include Makefile.minikube
 
@@ -7,13 +9,10 @@ APP := weather-forecast-api
 build weather-forecast-api-build:
 	./build.sh $(APP)
 
-deploy: weather-forecast-api-deploy-ingress weather-forecast-api-deploy
+deploy: weather-forecast-api-deploy ingress-nginx-port-forward
 	curl -D- http://localhost:8080 -H "Host: $(APP).local"
 
-weather-forecast-api-deploy-ingress:
-	kubectl create ingress weather-forecast-api --class=nginx --rule="$(APP).local/*=$(APP):80" || true
-
-weather-forecast-api-deploy weather-forecast-api-deploy-RollingUpdate:
+weather-forecast-api-deploy weather-forecast-api-deploy-RollingUpdate: ready
 	kubectl apply -f ./deploy/RollingUpdate/manifest.yaml
 	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=weather-forecast-api"
 
@@ -26,8 +25,11 @@ weather-forecast-api-deploy-BlueGreen:
 	kubectl apply -f ./deploy/BlueGreen/app-green.yaml
 	kubectl apply -f ./deploy/BlueGreen/service.yaml
 
-weather-forecast-api-deploy-BlueGreen-switch:
+weather-forecast-api-deploy-BlueGreen-switch: weather-forecast-api-deploy-BlueGreen
 	./deploy/BlueGreen/switch.sh
+
+weather-forecast-api-deploy-ingress:
+	kubectl create ingress weather-forecast-api --class=nginx --rule="$(APP).local/*=$(APP):80" || true
 
 weather-forecast-api-open:
 	xdg-open $$(minikube service weather-forecast-api --url)/WeatherForecast
@@ -43,3 +45,6 @@ weather-forecast-api-curl-test:
 weather-forecast-api-clean:
 	kubectl delete all -l app=$(APP)
 
+.PHONY: test
+test: deploy ## Generate traffic and test app
+	[ -f ./tests/test.sh ] && ./tests/test.sh
