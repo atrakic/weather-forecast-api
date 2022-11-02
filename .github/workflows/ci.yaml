@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - '*'
+      - '!minikube**'
       - '!main'
     paths-ignore:
       - '**/README.md'
