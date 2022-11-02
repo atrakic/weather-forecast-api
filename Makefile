@@ -1,4 +1,4 @@
-#MAKEFLAGS += --silent
+MAKEFLAGS += --silent
 
 SHELL := /bin/bash
 
@@ -9,10 +9,10 @@ APP := weather-forecast-api
 build weather-forecast-api-build:
 	./build.sh $(APP)
 
-deploy: weather-forecast-api-deploy ingress-nginx-port-forward
+deploy: build weather-forecast-api-deploy-RollingUpdate ingress-nginx-port-forward
 	curl -D- http://localhost:8080 -H "Host: $(APP).local"
 
-weather-forecast-api-deploy weather-forecast-api-deploy-RollingUpdate: ready
+weather-forecast-api-deploy-RollingUpdate: ready
 	kubectl apply -f ./deploy/RollingUpdate/manifest.yaml
 	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=weather-forecast-api"
 
@@ -46,5 +46,5 @@ weather-forecast-api-clean:
 	kubectl delete all -l app=$(APP)
 
 .PHONY: test
-test: deploy ## Generate traffic and test app
+test: ## Generate traffic and test app
 	[ -f ./tests/test.sh ] && ./tests/test.sh
