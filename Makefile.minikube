@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := all
 
 .PHONY: all
-all: clean setup minikube install-ingress-nginx # install-prometheus
+all: setup minikube install-ingress-nginx # install-prometheus
 	echo ""
 	echo "URL: 'http://localhost:8080'"
 
