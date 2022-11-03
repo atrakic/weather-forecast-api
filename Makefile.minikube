@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := all
 
 .PHONY: all
-all: clean setup minikube install-ingress-nginx # install-prometheus
+all: setup minikube install-ingress-nginx # install-prometheus
 	echo ""
 	echo "URL: 'http://localhost:8080'"
 
@@ -20,7 +20,6 @@ setup:
 	fi
 	#source <(kubectl completion zsh)
 	alias k="kubectl"
-	echo "$@: done."
 
 .PHONY: minikube
 minikube: setup
