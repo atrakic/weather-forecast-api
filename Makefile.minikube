@@ -20,7 +20,6 @@ setup:
 	fi
 	#source <(kubectl completion zsh)
 	alias k="kubectl"
-	echo "$@: done."
 
 .PHONY: minikube
 minikube: setup
