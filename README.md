@@ -20,6 +20,9 @@ make
 ## Build image with demo .NET app
 make build
 
+## Deploy
+make deploy
+
 ## Test
 make test
 
