@@ -9,7 +9,7 @@ APP := weather-forecast-api
 build weather-forecast-api-build:
 	./build.sh $(APP)
 
-deploy: build weather-forecast-api-deploy-RollingUpdate ingress-nginx-port-forward
+deploy: weather-forecast-api-deploy-RollingUpdate ingress-nginx-port-forward
 	curl -D- http://localhost:8080 -H "Host: $(APP).local"
 
 weather-forecast-api-deploy-RollingUpdate: ready
