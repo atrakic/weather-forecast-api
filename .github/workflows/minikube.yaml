@@ -53,5 +53,5 @@ jobs:
           minikube service list
           minikube service ${{ env.APP }} --url
           echo "------------------opening the service------------------"
-          curl -sSL $(minikube service ${{ env.APP }} --url)/
+          curl -sSL $(minikube service ${{ env.APP }} --url)/WeatherForecast
           minikube delete
