@@ -13,6 +13,7 @@ on:
     paths:
       - 'src/**'
       - '!src/docs/**'
+      - '.github/workflows/minikube.yaml'
 
 env:
   APP: weather-forecast-api

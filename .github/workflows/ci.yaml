@@ -17,7 +17,6 @@ jobs:
       run:
         shell: bash
         working-directory: src
-
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET
@@ -37,7 +36,6 @@ jobs:
     if: github.event_name == 'pull_request'
     needs:
       - build
-
     steps:
       - uses: actions/checkout@v2
       - name: Docker build and run
@@ -47,3 +45,7 @@ jobs:
           docker ps -a --no-trunc
           sleep 1
           curl -f -sL localhost/WeatherForecast
+
+  gh-debug:
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/gh-debug.yml

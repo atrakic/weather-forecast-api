@@ -19,6 +19,7 @@ on:
     paths:
       - 'src/**'
       - '!src/docs/**'
+      - '.github/workflows/release.yaml'
     tags:
       - 'v*.*.*'
 
