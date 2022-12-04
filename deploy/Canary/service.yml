@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-forecast-api
+  labels:
+    app: weather-forecast-api-canary
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: weather-forecast-api
+  type: NodePort # ClusterIP
