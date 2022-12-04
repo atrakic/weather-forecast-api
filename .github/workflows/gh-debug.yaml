@@ -1,3 +1,5 @@
+name: gh-debug
+
 on:
   workflow_call:
 
