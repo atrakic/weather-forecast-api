@@ -4,7 +4,7 @@
 [![release](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml)
 
 - [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5..0) - API backend .NET API demo with [Prometheus metrics](https://github.com/prometheus-net/prometheus-net).
-Includes github actions pipelines to build, deploy on Azure.
+Includes github actions pipeline to build, deploy on Azure.
 
 ## Deployment strategies examples covered in demo
 - Recreate
