@@ -6,10 +6,12 @@
 - [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5..0) - API backend .NET API demo with [Prometheus metrics](https://github.com/prometheus-net/prometheus-net).
 Includes github actions pipelines to build, deploy on Azure.
 
-## Requirements
-Linux with sudo and [docker](https://docs.docker.com/engine/install/).
+## Deployment strategies examples covered in demo
+- Recreate
+- RollingUpdate
+- BlueGreen
 
-## Quickstart
+## Localdev quickstart
 1. Fork this repo
 2. Install developer environment with additional tools:
 
@@ -30,10 +32,9 @@ make test
 make clean
 ```
 
-## Deployment strategies examples covered in demo
-- Recreate
-- RollingUpdate
-- BlueGreen
+## Localdev requirements
+Linux with sudo and [docker](https://docs.docker.com/engine/install/).
+
 
 ## Github Actions
 - .github/workflows/ci.yaml - build, deploy and test local image with [docker-compose](https://docs.docker.com/compose/)
@@ -46,3 +47,8 @@ make clean
 2. Implement and test your workflow
 3. Describe it shortly in the README
 4. Open a pull request
+
+
+## License
+
+The scripts and documentation in this project are released under the [Apache License](LICENSE)
