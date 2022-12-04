@@ -10,7 +10,7 @@ build weather-forecast-api-build:
 	./build.sh $(APP)
 
 deploy: weather-forecast-api-deploy-RollingUpdate ingress-nginx-port-forward
-	curl -D- http://localhost:8080 -H "Host: $(APP).local"
+	curl -i -D- http://localhost:8080 -H "Host: $(APP).local"
 
 weather-forecast-api-deploy-RollingUpdate: ready
 	kubectl apply -f ./deploy/RollingUpdate/manifest.yaml

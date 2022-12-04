@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app: weather-forecast-api
   replicas: 2
-  ### 
+  ###
   strategy:
     # Old pods are killed all at once and get replaced all at once with the new ones
     # Supported values: "Recreate", "RollingUpdate"
@@ -28,9 +28,11 @@ spec:
     spec:
       containers:
       - name: weather-forecast-api
-        image: "minikube/weather-forecast-api:latest"
-        # Disable bellow if using public image  
-        imagePullPolicy: Never
+        #image: "minikube/weather-forecast-api:latest"
+        # Disable bellow if using public image
+        #imagePullPolicy: Never
+        image: ghcr.io/atrakic/weather-forecast-api:latest
+        imagePullPolicy: Always
         ports:
          - name: http
            containerPort: 80

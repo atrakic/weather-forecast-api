@@ -60,7 +60,7 @@ minikube-status: ready
 	minikube service list
 
 .PHONY: install-prometheus
-install-prometheus: ready
+install-prometheus:
 	echo ":: $@ ::"
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
 	helm repo update
@@ -70,11 +70,11 @@ install-prometheus: ready
 	kubectl wait --for=condition=Ready pods --all -n monitoring --timeout=300s
 	kubectl wait deployment prometheus-server -n monitoring --for condition=Available=True --timeout=90s
 	helm list -n monitoring
-	#killall kubectl || kubectl -n monitoring port-forward svc/prometheus-server 9090:80 &
-	minikube service -n monitoring prometheus-server &
+	#minikube service -n monitoring prometheus-server &
+	killall kubectl || kubectl -n monitoring port-forward svc/prometheus-server 9090:80 &
 
 .PHONY: install-ingress-nginx
-install-ingress-nginx: ready
+install-ingress-nginx:
 	echo ":: $@ ::"
 	# helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
 	helm upgrade --install ingress-nginx ingress-nginx \
@@ -90,7 +90,7 @@ install-ingress-nginx: ready
 		--for=condition=ready pod \
 		--selector=app.kubernetes.io/component=controller \
 		--timeout=120s
-	
+
 .PHONY: ingress-nginx-port-forward
 ingress-nginx-port-forward: ready
 	echo ":: $@ ::"
@@ -98,14 +98,13 @@ ingress-nginx-port-forward: ready
 	curl -D- http://localhost:8080
 
 .PHONY: ingress-nginx
-ingress-nginx-demo: ready
+ingress-nginx-demo:
 	kubectl create deployment demo --image=httpd --port=80
 	kubectl expose deployment demo
 	kubectl create ingress demo --class=nginx --rule="www.demo.io/*=demo:80" # --tls:- hosts: - www.demo.io secretName: demo-tls
 	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=demo"
 	sleep 1
-	curl -D- http://localhost:8080 -H "Host: www.demo.io"
-	sleep 3
+	curl -i -D- http://localhost:8080 -H "Host: www.demo.io"
 	kubectl delete ing demo
 	kubectl delete pods,services,deployments -l app=demo
 
