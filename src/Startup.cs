@@ -62,12 +62,12 @@ namespace DemoApi
             if (ver != "unknown") { System.Console.WriteLine("Running: " + ver); }
 
             app.UseEndpoints(endpoints => {
-              endpoints.MapGet("/version", async context => { 
+              endpoints.MapGet("/version", async context => {
                 await context.Response.WriteAsync(ver);
               });
 
               endpoints.MapGet("/", async context => {
-                await context.Response.WriteAsync("WeatherForecastApi - Version: " + ver);
+                await context.Response.WriteAsync("WeatherForecastApi - Version: " + ver + " - Time " + DateTime.Now );
               });
 
               endpoints.MapControllers();
