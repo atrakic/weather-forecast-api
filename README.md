@@ -1,4 +1,4 @@
-## Introduction 
+## Introduction
 [![ci](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml)
 [![minikube](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml)
 [![release](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml)
@@ -10,6 +10,7 @@ Includes github actions pipeline to build, deploy on Azure.
 - Recreate
 - RollingUpdate
 - BlueGreen
+- Canary
 
 ## Localdev quickstart
 1. Fork this repo
@@ -17,7 +18,7 @@ Includes github actions pipeline to build, deploy on Azure.
 
 ```
 ## Bootstrap
-make 
+make
 
 ## Build image with demo .NET app
 make build

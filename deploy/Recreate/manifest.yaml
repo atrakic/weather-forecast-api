@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather-forecast-api
+  name: weather-forecast-api-recreate
   labels:
-    app: weather-forecast-api
+    app: weather-forecast-api-recreate
 spec:
   selector:
     matchLabels:
-      app: weather-forecast-api
+      app: weather-forecast-api-recreate
   replicas: 2
   ###
   strategy:
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: weather-forecast-api
+        app: weather-forecast-api-recreate
       # See: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus#scraping-pod-metrics-via-annotations
       annotations:
         prometheus.io/scrape: "true"
@@ -27,7 +27,7 @@ spec:
         prometheus.io/port: "80"
     spec:
       containers:
-      - name: weather-forecast-api
+      - name: weather-forecast-api-recreate
         #image: "minikube/weather-forecast-api:latest"
         # Disable bellow if using public image
         #imagePullPolicy: Never
@@ -56,9 +56,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: weather-forecast-api
+  name: weather-forecast-api-recreate
   labels:
-    app: weather-forecast-api
+    app: weather-forecast-api-recreate
 spec:
   ports:
   - name: 80-80
@@ -66,5 +66,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: weather-forecast-api
-  type: NodePort # ClusterIP
+    app: weather-forecast-api-recreate
+  type: ClusterIP # NodePort

@@ -23,9 +23,8 @@ spec:
     spec:
       containers:
       - name: weather-forecast-api-blue
-        image: "minikube/weather-forecast-api:v0.0.1" # change here
-        # Disable bellow if using public image
-        imagePullPolicy: Never
+        image: "ghcr.io/atrakic/weather-forecast-api:v0.0.3" # change here
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 80
@@ -33,7 +32,7 @@ spec:
           containerPort: 80 # TODO
         env:
         - name: VERSION
-          value: v0.0.1
+          value: v0.0.3
         livenessProbe:
           httpGet:
             path: /version # TODO

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: weather-forecast-api
+  name: weather-forecast-api-canary
 spec:
   ingressClassName: nginx
   rules:
@@ -11,7 +11,7 @@ spec:
       paths:
       - backend:
           service:
-            name: weather-forecast-api
+            name: weather-forecast-api-canary
             port:
               number: 80
         path: /
