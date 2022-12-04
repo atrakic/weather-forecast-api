@@ -6,7 +6,7 @@ image := weather-forecast-api
 
 .PHONY: all
 all:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+	TAG=v.0.02 docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 .PHONY: build
 build: ## Build containers

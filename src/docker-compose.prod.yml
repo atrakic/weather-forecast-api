@@ -1,13 +1,11 @@
 version: '3.4'
 services:
   app:
-    image: weather-forecast-api
+    image: ghcr.io/atrakic/weather-forecast-api:main
     container_name: weather-forecast-api
     restart: unless-stopped
-    build:
-      context: .
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - VERSION=${TAG}
     ports:
-      - 80:80
+      - 8080:80
