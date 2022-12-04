@@ -17,11 +17,9 @@ on:
       - main
     paths:
       - 'src/**'
+      - '!README.md'
       - '!src/docs/**'
       - '.github/workflows/release.yaml'
-    paths-ignore:
-      - '**/README.md'
-      - 'docs/**'
     tags:
       - 'v*.*.*'
 
