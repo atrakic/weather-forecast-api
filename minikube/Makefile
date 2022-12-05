@@ -1,7 +1,12 @@
+APP := weather-forecast-api
+
 .PHONY: all
-all: minikube install-ingress-nginx # install-prometheus
+all: minikube install-ingress-nginx build # install-prometheus
 	echo ""
 	echo "URL: 'http://localhost:8080'"
+
+build: ## Build app on minikube env
+  ./build.sh $(APP)
 
 .PHONY: ready
 ready: setup
@@ -95,16 +100,8 @@ ingress-nginx-port-forward: ready
 	killall kubectl || kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80 &
 	curl -D- http://localhost:8080
 
-.PHONY: ingress-nginx
-ingress-nginx-demo:
-	kubectl create deployment demo --image=httpd --port=80
-	kubectl expose deployment demo
-	kubectl create ingress demo --class=nginx --rule="www.demo.io/*=demo:80" # --tls:- hosts: - www.demo.io secretName: demo-tls
-	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=demo"
-	sleep 1
-	curl -i -D- http://localhost:8080 -H "Host: www.demo.io"
-	kubectl delete ing demo
-	kubectl delete pods,services,deployments -l app=demo
+api-open:
+	xdg-open $$(minikube service weather-forecast-api --url)/WeatherForecast
 
 .PHONY: get-events
 get-events: ready

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: weather-forecast-api-blue
-        image: "ghcr.io/atrakic/weather-forecast-api:v0.0.3" # change here
+        image: "ghcr.io/atrakic/weather-forecast-api:v0.0.4" # change here
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
@@ -32,7 +32,7 @@ spec:
           containerPort: 80 # TODO
         env:
         - name: VERSION
-          value: v0.0.3
+          value: v0.0.4
         livenessProbe:
           httpGet:
             path: /version # TODO
