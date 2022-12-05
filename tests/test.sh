@@ -1,15 +1,14 @@
 #!/bin/bash
 set -e
-#set -x
 
 service="weather-forecast-api"
-#url="$(minikube service $service --url)"
-url="localhost:8080"
+url="localhost:80"
 
 counter=0
 while true; do
    counter=$((counter+1))
-   echo "$counter"
-   curl -skX GET "$url/WeatherForecast" -H"Host: $service.local" | xargs # | jq ". | length"
+   echo "$counter: $(curl -f -i -skX GET $url -H"Host: ${service}.local")"
+   echo
+   #curl -skX GET "$url/WeatherForecast" -H"Host: $service.local" | xargs # | jq ". | length"
    sleep 1
 done

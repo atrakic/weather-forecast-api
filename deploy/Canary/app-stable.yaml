@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather-forecast-api-blue
+  name: weather-forecast-api-stable
   labels:
     app: weather-forecast-api
 spec:
@@ -10,19 +10,19 @@ spec:
   selector:
     matchLabels:
       app: weather-forecast-api
-      color: blue
+      #track: stable
   template:
     metadata:
       labels:
         app: weather-forecast-api
-        color: blue
+        track: stable
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/metrics"
         prometheus.io/port: "80"
     spec:
       containers:
-      - name: weather-forecast-api-blue
+      - name: weather-forecast-api-stable
         image: "ghcr.io/atrakic/weather-forecast-api:v0.0.4" # change here
         imagePullPolicy: IfNotPresent
         ports:
@@ -32,7 +32,7 @@ spec:
           containerPort: 80 # TODO
         env:
         - name: VERSION
-          value: v0.0.4
+          value: v0.0.4 # change here
         livenessProbe:
           httpGet:
             path: /version # TODO

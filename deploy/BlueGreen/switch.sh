@@ -6,10 +6,10 @@ set -o pipefail
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")
 COLOR="$1"
 
-service="weather-forecast-api"
+service="weather-forecast-api-blue-green"
 items=("blue" "green")
-        
-switch_incoming_traffic() { 
+
+switch_incoming_traffic() {
   case "$COLOR" in
     blue|green) patch_service "$COLOR"; exit ;;
     *) get_status; exit;;

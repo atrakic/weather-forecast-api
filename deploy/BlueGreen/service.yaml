@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: weather-forecast-api
+  name: weather-forecast-api-blue-green
   labels:
     app: weather-forecast-api
     color: blue # Change here to switch
@@ -11,8 +11,8 @@ spec:
   - name: http
     port: 80
     targetPort: http
-  # We match both the app and the color 
+  # We match both the app and the color
   selector:
     app: weather-forecast-api
     color: blue # Change here to switch
-  type: NodePort # Change to 'ClusterIP' if using Ingress
+  type: ClusterIP

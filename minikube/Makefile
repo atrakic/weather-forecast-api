@@ -1,13 +1,16 @@
-.DEFAULT_GOAL := all
+APP := weather-forecast-api
 
 .PHONY: all
-all: setup minikube install-ingress-nginx # install-prometheus
+all: minikube install-ingress-nginx build # install-prometheus
 	echo ""
 	echo "URL: 'http://localhost:8080'"
 
+build: ## Build app on minikube env
+  ./build.sh $(APP)
+
 .PHONY: ready
-ready:
-	if [[ "$$(minikube status -f'{{.Kubelet}}'|xargs)" == "Stopped" ]];then echo "Minikube not running !"; exit 1; fi
+ready: setup
+	if [[ "$$(minikube status -f'{{.Kubelet}}'|xargs)" != "Running" ]];then echo "Minikube not running !"; exit 1; fi
 
 .PHONY: setup
 setup:
@@ -18,6 +21,11 @@ setup:
 	if ! [ -x "$$(command -v helm)" ]; then \
 		curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash; \
 	fi
+	if ! [ -x "$$(command -v minikube)" ]; then \
+		curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64; \
+	        sudo install minikube-linux-amd64 /usr/local/bin/minikube; \
+		rm -rf minikube-linux-amd64; \
+	fi
 	#source <(kubectl completion zsh)
 	alias k="kubectl"
 
@@ -27,11 +35,6 @@ minikube: setup
 	echo "You are about to create minikube cluster."
 	echo "Are you sure? (Press Enter to continue or Ctrl+C to abort) "
 	read _
-	if ! [ -x "$$(command -v minikube)" ]; then \
-		curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64; \
-	        sudo install minikube-linux-amd64 /usr/local/bin/minikube; \
-		rm -rf minikube-linux-amd64; \
-	fi
 	eval $$(minikube docker-env --unset) || true
 	minikube config set WantUpdateNotification false
 	MINIKUBE_IN_STYLE=0 minikube start \
@@ -71,7 +74,7 @@ install-prometheus:
 	kubectl wait deployment prometheus-server -n monitoring --for condition=Available=True --timeout=90s
 	helm list -n monitoring
 	#minikube service -n monitoring prometheus-server &
-	killall kubectl || kubectl -n monitoring port-forward svc/prometheus-server 9090:80 &
+	#killall kubectl || kubectl -n monitoring port-forward svc/prometheus-server 9090:80 &
 
 .PHONY: install-ingress-nginx
 install-ingress-nginx:
@@ -97,23 +100,15 @@ ingress-nginx-port-forward: ready
 	killall kubectl || kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80 &
 	curl -D- http://localhost:8080
 
-.PHONY: ingress-nginx
-ingress-nginx-demo:
-	kubectl create deployment demo --image=httpd --port=80
-	kubectl expose deployment demo
-	kubectl create ingress demo --class=nginx --rule="www.demo.io/*=demo:80" # --tls:- hosts: - www.demo.io secretName: demo-tls
-	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=demo"
-	sleep 1
-	curl -i -D- http://localhost:8080 -H "Host: www.demo.io"
-	kubectl delete ing demo
-	kubectl delete pods,services,deployments -l app=demo
+api-open:
+	xdg-open $$(minikube service weather-forecast-api --url)/WeatherForecast
 
 .PHONY: get-events
 get-events: ready
 	kubectl get events --sort-by=.metadata.creationTimestamp
 
 .PHONY: clean
-clean:
+clean: ## Clean up
 	echo ":: $@ ::"
 	echo "You are about to stop minikube cluster."
 	echo "Are you sure? (Press Enter to continue or Ctrl+C to abort) "

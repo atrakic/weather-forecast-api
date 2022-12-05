@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather-forecast-api-rollingupdate
+  name: weather-forecast-api
   labels:
     app: weather-forecast-api
 spec:
   selector:
     matchLabels:
-      app: weather-forecast-api-rollingupdate
+      app: weather-forecast-api
   replicas: 2
   ###
   # The *Rolling Deployment* is the standard default deployment to Kubernetes.
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: weather-forecast-api-rollingupdate
+        app: weather-forecast-api
       # https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus#scraping-pod-metrics-via-annotations
       annotations:
         prometheus.io/scrape: "true"
@@ -28,16 +28,18 @@ spec:
         prometheus.io/port: "80"
     spec:
       containers:
-      - name: weather-forecast-api-rollingupdate
-        image: "ghcr.io/atrakic/weather-forecast-api:latest"
+      - name: weather-forecast-api
+        image: "minikube/weather-forecast-api:latest"
+        # Disable bellow if using public image
+        imagePullPolicy: Never
         ports:
          - name: http
            containerPort: 80
          - name: probe
            containerPort: 80 # TODO
-        env:
-         - name: VERSION
-           value: RollingUpdate
+        #env:
+        # - name: VERSION
+        #   value: RollingUpdate
         livenessProbe:
           httpGet:
             path: /version # TODO
@@ -53,9 +55,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: weather-forecast-api-rollingupdate
+  name: weather-forecast-api
   labels:
-    app: weather-forecast-api-rollingupdate
+    app: weather-forecast-api
 spec:
   ports:
   - name: 80-80
@@ -63,5 +65,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: weather-forecast-api-rollingupdate
-  type: ClusterIP # NodePort
+    app: weather-forecast-api
+  type: NodePort # ClusterIP
