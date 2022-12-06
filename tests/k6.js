@@ -16,6 +16,19 @@ export const options = {
   };
 
 export default function () {
-  http.get('http://weather-forecast-api.local/WeatherForecast');
-  sleep(1);
+  // docs of k6 say this is how to adds host header
+  // needed as ingress is created with this host value
+  const params = {
+    headers: {'host': 'weather-forecast-api.local'},
+  };
+
+  const req1 = {
+  	method: 'GET',
+  	url: 'http://weather-forecast-api.local/WeatherForecast',
+  };
+
+  for(let i=0; i<20; i++){
+    const res = http.batch([req1], params);
+    sleep(1);
+  }
 }
