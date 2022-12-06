@@ -3,6 +3,8 @@
 [![ci](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml)
 [![minikube](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml)
 [![release](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml)
+[![license](https://img.shields.io/github/license/atrakic/weather-forecast-api.svg)](https://github.com/atrakic/weather-forecast-api/blob/main/LICENSE)
+[![release](https://img.shields.io/github/release/atrakic/weather-forecast-api/all.svg)](https://github.com/atrakic/weather-forecast-api/releases)
 
 [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5..0) .NET API demo with [Prometheus metrics](https://github.com/prometheus-net/prometheus-net).
 
@@ -30,6 +32,3 @@ make clean
 - .github/workflows/ci.yaml - build, deploy and test local image with [docker-compose](https://docs.docker.com/compose/)
 - .github/workflows/minikube.yaml - build and and test local image with [minikube](https://minikube.sigs.k8s.io/docs/)
 - .github/workflows/release.yaml - build and promote public image and optionaly deploy with [Azure App Services](https://learn.microsoft.com/en-us/azure/app-service/)
-
-## License
-The scripts and documentation in this project are released under the [Apache License](LICENSE)
