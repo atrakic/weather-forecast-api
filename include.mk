@@ -4,7 +4,7 @@ get-events:
 
 .PHONY: ingress-nginx-demo
 ingress-nginx-demo:
-	kubectl create deployment demo --image=httpd --port=80
+	kubectl create deployment demo --image=kennethreitz/httpbin --port=80
 	kubectl expose deployment demo
 	kubectl create ingress demo --class=nginx --rule="www.demo.io/*=demo:80" # --tls:- hosts: - www.demo.io secretName: demo-tls
 	kubectl wait --for=condition=Ready pods --timeout=300s -l "app=demo"
