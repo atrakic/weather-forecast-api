@@ -29,6 +29,9 @@ make clean
 ```
 
 ## Github Actions
-- .github/workflows/ci.yaml - build, deploy and test local image with [docker-compose](https://docs.docker.com/compose/)
-- .github/workflows/minikube.yaml - build and and test local image with [minikube](https://minikube.sigs.k8s.io/docs/)
-- .github/workflows/release.yaml - build and promote public image and optionaly deploy with [Azure App Services](https://learn.microsoft.com/en-us/azure/app-service/)
+
+| GH Action | description |
+|-----------------------|---------------------------------------------|
+| [ci](.github/workflows/ci.yaml) | build, deploy and test local image with [docker-compose](https://docs.docker.com/compose/)|
+| [minikube](.github/workflows/minikube.yaml) | build and test local image with [minikube](https://minikube.sigs.k8s.io/docs/)|
+| [release](.github/workflows/release.yaml) | build and promote public image and optionaly deploy with [Azure App Services](https://learn.microsoft.com/en-us/azure/app-service/)|
