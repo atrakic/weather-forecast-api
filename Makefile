@@ -10,15 +10,22 @@ APP := weather-forecast-api
 all: up deploy test
 	curl -i -D- http://localhost:80 -H "Host: $(APP).local"
 
+kind:
+	kind create cluster --config kind.yaml 2> /dev/null || true
+
 .PHONY: cluster-up
 up: ## Start kinD cluster with Nginx ingress
-	kind create cluster --config kind.yaml
+	$(MAKE) kind
 	#kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=300s
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 	kubectl wait --namespace ingress-nginx \
 		--for=condition=ready pod \
 		--selector=app.kubernetes.io/component=controller \
 		--timeout=90s
+
+.PHONY: deploy-helm
+deploy-helm:
+	pushd charts/$(APP); $(MAKE) install; popd
 
 .PHONY: deploy
 deploy: deploy-RollingUpdate ## Deploy with default (RollingUpdate) strategy
@@ -51,7 +58,7 @@ deploy-BlueGreen: ## Deploy with BlueGreen strategy
 BlueGreen-switch: deploy-BlueGreen ## Switch Blue Green envs
 	./deploy/BlueGreen/switch.sh
 
-.PHONY: deploy
+.PHONY: deploy-Canary
 deploy-Canary: ## Deploy with Canary strategy
 	kubectl delete ingress $(APP) || true
 	kubectl apply -f ./deploy/Canary

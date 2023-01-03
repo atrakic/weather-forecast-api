@@ -26,22 +26,35 @@ spec:
       - name: weather-forecast-api-canary
         image: "ghcr.io/atrakic/weather-forecast-api:v0.0.5" # change here
         imagePullPolicy: IfNotPresent # Always # Never
+        securityContext: {}
+        #  allowPrivilegeEscalation: false
+        #  readOnlyRootFilesystem: true
+        #  capabilities:
+        #    drop:
+        #      - all
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
         ports:
         - name: http
           containerPort: 80
         - name: probe
-          containerPort: 80 # TODO
+          containerPort: 80
         env:
         - name: VERSION
           value: v0.0.5
         livenessProbe:
           httpGet:
-            path: /version # TODO
+            path: /version
             port: probe
           initialDelaySeconds: 5
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /version # TODO
+            path: /version # TODO: use some other path
             port: probe
           periodSeconds: 5
