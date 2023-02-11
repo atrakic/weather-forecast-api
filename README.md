@@ -9,10 +9,10 @@
 [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5..0) .NET API demo with [Prometheus metrics](https://github.com/prometheus-net/prometheus-net).
 
 ## K8s deployment strategies covered
-- Recreate
-- RollingUpdate
-- BlueGreen
-- Canary
+- [Recreate](deploy/Recreate)
+- [RollingUpdate](deploy/RollingUpdate)
+- [BlueGreen](deploy/BlueGreen)
+- [Canary](deploy/Canary)
 
 ## Local dev environment with Docker and Kubernetes KIND:
 

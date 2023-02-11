@@ -85,6 +85,12 @@ api-clean: ## Remove api but keep kinD running
 	kubectl delete all -l "app=$(APP)-canary" || true
 	kubectl delete ingress $(APP) || true
 
+release: ## Release (eg. V=0.0.1)
+	 @[ "$(V)" ] \
+		 && read -p "Press enter to confirm and push tag v$(V) to origin, <Ctrl+C> to abort ..." \
+		 && git tag v$(V) -m "v$(V)" \
+		 && git push origin v$(V)
+
 .PHONY: test
 test: ## Generate traffic and test app
 	[ -f ./tests/test.sh ] && ./tests/test.sh
