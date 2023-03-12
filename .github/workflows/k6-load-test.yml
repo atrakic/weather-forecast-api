@@ -23,7 +23,7 @@ jobs:
         with:
           install_only: true
 
-      - name: Install ingress
+      - name: Install kinD with ingress
         run: |
           make up
 
@@ -42,7 +42,7 @@ jobs:
           sudo sysctl -w net.ipv4.tcp_timestamps=1
           sudo sh -c "ulimit "
 
-      - name: Run local k6 test
+      - name: Run k6 test
         uses: grafana/k6-action@v0.2.0
         with:
           filename: tests/k6.js
@@ -53,3 +53,9 @@ jobs:
         with:
           name: k6-report
           path: results.json
+
+      - name: Debug failure
+        if: failure()
+        run: |
+          kubectl get all,cm,sa -A
+          kubectl get events --sort-by='.metadata.creationTimestamp' -A
