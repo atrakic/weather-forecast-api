@@ -1,0 +1,49 @@
+name: k6-load-test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  k6_load_test:
+    name: k6 Load Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.5.0
+        with:
+          install_only: true
+
+      - name: Install ingress
+        run: |
+          make up
+
+      - name: Deploy app with default (RollingUpdate) strategy
+        run: |
+          make deploy
+          kubectl get all -o wide
+
+      # https://github.com/longwuyuan/k6-loadtest-example/blob/main/.github/workflows/smoketest.yaml
+      - name: Tune OS
+        run : |
+          sudo sysctl -A 2>/dev/null | egrep -i "local_port_range|tw_reuse|tcp_timestamps"
+          sudo sh -c "ulimit"
+          sudo sysctl -w net.ipv4.ip_local_port_range="1024 65535"
+          sudo sysctl -w net.ipv4.tcp_tw_reuse=1
+          sudo sysctl -w net.ipv4.tcp_timestamps=1
+          sudo sh -c "ulimit "
+
+      - name: Run local k6 test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: test/k6.js
+          flags: --out json=results.json
+
+      - name: Upload performance test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: k6-report
+          path: results.json
