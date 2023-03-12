@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/ci.yaml)
 [![minikube](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/minikube.yaml)
-[![release](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/release.yaml)
+[![k6-load-test](https://github.com/atrakic/weather-forecast-api/actions/workflows/k6-load-test.yml/badge.svg)](https://github.com/atrakic/weather-forecast-api/actions/workflows/k6-load-test.yml)
 [![license](https://img.shields.io/github/license/atrakic/weather-forecast-api.svg)](https://github.com/atrakic/weather-forecast-api/blob/main/LICENSE)
 [![release](https://img.shields.io/github/release/atrakic/weather-forecast-api/all.svg)](https://github.com/atrakic/weather-forecast-api/releases)
 
