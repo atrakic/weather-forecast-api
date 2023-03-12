@@ -11,7 +11,8 @@ all: up deploy test
 	curl -i -D- http://localhost:80 -H "Host: $(APP).local"
 
 kind:
-	kind create cluster --config kind.yaml 2> /dev/null || true
+	kind create cluster --config kind.yaml --wait 60s || true
+	kind version
 
 .PHONY: cluster-up
 up: ## Start kinD cluster with Nginx ingress

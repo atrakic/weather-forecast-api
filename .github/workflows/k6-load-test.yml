@@ -2,6 +2,12 @@ name: k6-load-test
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tests/k6.js'
+      - '.github/workflows/k6-load-test.yml'
 
 jobs:
   k6_load_test:
@@ -39,7 +45,7 @@ jobs:
       - name: Run local k6 test
         uses: grafana/k6-action@v0.2.0
         with:
-          filename: test/k6.js
+          filename: tests/k6.js
           flags: --out json=results.json
 
       - name: Upload performance test results
