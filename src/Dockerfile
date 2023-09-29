@@ -16,6 +16,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out --no-restore
 
 FROM base AS final
+LABEL maintainer="Admir Trakic <atrakic@users.noreply.github.com>"
 WORKDIR /App
 COPY --from=build-env /App/out .
 ENV DOTNET_EnableDiagnostics=0

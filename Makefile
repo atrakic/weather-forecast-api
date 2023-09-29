@@ -1,6 +1,7 @@
-# Local dev environment with Docker and Kubernetes KIND
 MAKEFLAGS += --silent
 SHELL := /bin/bash
+
+BASEDIR=$(shell git rev-parse --show-toplevel)
 
 APP := weather-forecast-api
 
@@ -89,8 +90,8 @@ api-clean: ## Remove api but keep kinD running
 release: ## Release (eg. V=0.0.1)
 	 @[ "$(V)" ] \
 		 && read -p "Press enter to confirm and push tag v$(V) to origin, <Ctrl+C> to abort ..." \
-		 && git tag v$(V) -m "v$(V)" \
-		 && git push origin v$(V)
+		 && git tag $(V) -m "$(V)" \
+		 && git push origin $(V)
 
 .PHONY: test
 test: ## Generate traffic and test app
@@ -103,6 +104,10 @@ clean: ## Clean up
 	echo "Are you sure? (Press Enter to continue or Ctrl+C to abort) "
 	read _
 	kind delete cluster
+
+docker-test:
+	DOCKER_BUILDKIT=1 docker-compose up --build --remove-orphans --force-recreate -d
+	#docker-compose down --remove-orphans -v
 
 .PHONY: help
 help:

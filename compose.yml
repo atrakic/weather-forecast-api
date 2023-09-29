@@ -1,12 +1,10 @@
-version: '3.4'
 services:
   app:
     image: weather-forecast-api
     container_name: weather-forecast-api
     build:
-      context: .
+      context: src
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 80:80
-      - 443:443
