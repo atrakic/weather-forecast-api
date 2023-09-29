@@ -43,7 +43,7 @@ jobs:
           sudo sh -c "ulimit "
 
       - name: Run k6 test
-        uses: grafana/k6-action@v0.2.0
+        uses: grafana/k6-action@v0.3.0
         with:
           filename: tests/k6.js
           flags: --out json=results.json
