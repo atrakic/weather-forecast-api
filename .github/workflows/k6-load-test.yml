@@ -57,5 +57,5 @@ jobs:
       - name: Debug failure
         if: failure()
         run: |
-          kubectl get all,cm,sa -A
+          kubectl get all,cm,sa,ing -A
           kubectl get events --sort-by='.metadata.creationTimestamp' -A
