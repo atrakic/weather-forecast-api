@@ -40,7 +40,7 @@ namespace DemoApi.Controllers
             })
             .ToArray();
         }
-	
+
     }
 
     [ApiController]
